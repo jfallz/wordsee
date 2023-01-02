@@ -1,35 +1,19 @@
+from funcs import *
+from datavis import *
 import sys
 import os
-import collections
 
 F_NAME = "data.txt"
 WORD_LIST = []
-
-# function to parse list into however many words/phrases desired
-def CreateMultipleLists(word_list, words):
-    newlist = []
-    for i in range((len(word_list)) - (-1+words)):
-        word = ""
-        for j in range(words):
-            word += word_list[i+j] + " "
-        newlist.append(word)
-    return newlist
-
-# clear the datafile's text
-def clearData():
-    with open(F_NAME, 'w'):
-        pass
-    print("File has been cleared.")
-    quit()
+TOTAL_WORDS = 1
 
 # parsing cli arguments
 clear = False
 for i in range(1, len(sys.argv)):
-    if(sys.argv[i] == "-c"):
-        clear = True
     if(sys.argv[i] == "-fn"):
         F_NAME = sys.argv[i+1]
-if(clear) : clearData()
+    if(sys.argv[i] == "-w"):
+        TOTAL_WORDS = int(sys.argv[i+1])
 
 # now creating list for word storage, and traversing file contents 
 try:
@@ -41,9 +25,13 @@ except IOError:
     print("File '" + F_NAME + "' not found.")
     quit()
 
-word_list = CreateMultipleLists(WORD_LIST, 1)
-if(len(word_list) == 0):
-    print("Invalid parameters. Try again.")
-    quit()
-c = collections.Counter(word_list)
-print(c)
+for i in range(TOTAL_WORDS):
+    word_list = CreateMultipleLists(WORD_LIST, i+1)
+    c = collections.Counter(word_list)
+    c = Organize(c)
+    try:
+        PlotData(c, str(i+1))
+        print("Successfully created plot with " + str(i+1) + " word(s).")
+    except IOError: 
+        print("Error creating plot.")
+        quit()
