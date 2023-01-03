@@ -38,3 +38,4 @@ for i in range(TOTAL_WORDS):
     except IOError: 
         print("Error creating plot.")
         quit()
+    word_list.clear()
