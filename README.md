@@ -1,7 +1,7 @@
 # wordsee
 Get a visualization of a long piece of text based on words and phrases.
 
-Usage:
+## Usage:
 
 wordsee.py [-w #ofwords] [-fn filename.ext]
 
